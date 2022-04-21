@@ -10,7 +10,7 @@ contract MyERC721 is ERC721URIStorage, ERC721Enumerable, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("VMO Employee", "VMO") {}
+    constructor() ERC721("Dummy Token", "DUM") {}
 
     function mint(string memory _tokenURI) public returns (uint256) {
         _tokenIds.increment();

@@ -1,17 +1,16 @@
 const Web3 = require("web3");
 require("dotenv").config();
-const { RINKEBY_URL } = process.env;
+const { RINKEBY_URL, ACCOUNT_PRIVATE_KEY } = process.env;
 
 const web3 = new Web3(RINKEBY_URL);
 
-const privateKey =
-  "b76608f0c9407e27c3705cb51ffada391a7eb9b958024a5073e93dd7bec2b78f";
+const privateKey = ACCOUNT_PRIVATE_KEY;
+const accountAddress = "0xf066F23510645a7DDecC6e5024A57c0f437d4a7E";
+const erc721Address = "0x343b904982e5d79c1ceBedc52e0c9A0CA66456c5";
 
-const abi = require("./artifacts/contracts/MyERC721.sol/MyERC721.json").abi;
-const contract = new web3.eth.Contract(
-  abi,
-  "0x6a30CE3f32ed0AD847cAc401548D7e6C8Bec9B50"
-);
+const erc721Abi =
+  require("./artifacts/contracts/MyERC721.sol/MyERC721.json").abi;
+const contract = new web3.eth.Contract(erc721Abi, erc721Address);
 
 const _mintErcToken = async (fromAddress, contractAddress, data) => {
   try {
@@ -43,8 +42,4 @@ const mint = async (fromAddress, contractAddress, tokenURI) => {
   }
 };
 
-mint(
-  "0xf066F23510645a7DDecC6e5024A57c0f437d4a7E",
-  "0x6a30CE3f32ed0AD847cAc401548D7e6C8Bec9B50",
-  "Toi test xong that roi"
-);
+mint(accountAddress, erc721Address, "Toi nghich mot ti");
