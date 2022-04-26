@@ -10,7 +10,7 @@ contract MyERC721 is ERC721URIStorage, ERC721Enumerable, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("Dummy Token", "DUM") {}
+    constructor() ERC721("Token", "TKN") {}
 
     function mint(string memory _tokenURI) public returns (uint256) {
         _tokenIds.increment();
@@ -22,12 +22,22 @@ contract MyERC721 is ERC721URIStorage, ERC721Enumerable, Ownable {
         return newItemId;
     }
 
+    function mintMultiNFT(string[] memory _tokenURIs) public {
+        _tokenIds.increment();
+        uint256 startTokenId = _tokenIds.current();
+        uint256 quantity = _tokenURIs.length;
+
+        _mintMulti(_msgSender(), startTokenId, quantity);
+        _setMultiTokenURI(startTokenId, _tokenURIs);
+    }
+
     function _beforeTokenTransfer(
         address from,
         address to,
-        uint256 tokenId
+        uint256 tokenId,
+        uint256 quantity
     ) internal override(ERC721, ERC721Enumerable) {
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, tokenId, quantity);
     }
 
     function _burn(uint256 tokenId)
@@ -77,9 +87,5 @@ contract MyERC721 is ERC721URIStorage, ERC721Enumerable, Ownable {
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
-    }
-
-    function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
     }
 }
